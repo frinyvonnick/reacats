@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
 
 import './AddCat.css'
 
-class CatInput extends Component {
+export class AddCat extends Component {
   state = {
     value: '',
     displayed: false,
@@ -51,9 +50,3 @@ class CatInput extends Component {
   }
 }
 
-export const AddCat = connect(
-  undefined,
-  dispatch => ({
-    addCat: url => dispatch({ type: 'ADD_CAT', cat: { url } }),
-  }),
-)(CatInput)

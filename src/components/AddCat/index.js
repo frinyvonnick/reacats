@@ -1,1 +1,1 @@
-export { AddCat } from './AddCat'
+export { AddCatContainer as AddCat } from './AddCatContainer'
