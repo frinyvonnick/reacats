@@ -1,0 +1,34 @@
+.SearchCatForm-results {
+  overflow: scroll;
+  height: calc(100% - 55px);
+}
+
+.SearchCatForm-choice {
+  display: inline-block;
+  position: relative;
+}
+
+.SearchCatForm-checkbox {
+  bottom: 12px;
+  right: 12px;
+  position: absolute;
+  height: 32px;
+}
+
+.SearchCatForm-selected {
+  outline: 8px solid green;
+  outline-offset: -8px;
+}
+
+.SearchCatForm-submit {
+  font-size: 24px;
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}
+
+.SearchCatForm {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
