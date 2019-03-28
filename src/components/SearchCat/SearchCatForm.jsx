@@ -3,7 +3,8 @@ import Select from "react-select";
 import "./SearchCatForm.css";
 import config from "../../config.json";
 
-const limit = 20;
+const limit = 100;
+const imageTypes = ["jpg", "png", "gif"].map(v => ({ value: v, label: v }))
 const apiKey = config.apiKey;
 const baseUrl = "https://api.thecatapi.com/v1";
 
@@ -17,8 +18,11 @@ class SearchCatForm extends Component {
     this.state = {
       cats: [],
       allCategories: [],
-      selected: [],
-      loadingCats: false
+      loadingCats: false,
+      selectedCats: [],
+      selectedCategories: [],
+      selectedImageTypes: [],
+      allImageTypes: imageTypes
     };
 
     fetch(`${baseUrl}/categories`)
@@ -27,36 +31,57 @@ class SearchCatForm extends Component {
         allCategories.map(({ name, id }) => ({ value: id, label: name }))
       )
       .then(allCategories => this.setState({ allCategories }));
+
+    fetch(`${baseUrl}/breeds`)
+      .then(response => response.json())
+      .then(allBreeds =>
+        allBreeds.map(({ name, id }) => ({ value: id, label: name }))
+      )
+      .then(allBreeds => this.setState({ allBreeds }));
   }
 
-  searchCat(categories) {
-    const ids = categories.map(c => c.value);
+  componentDidMount() {
+    this.searchCat()
+  }
+
+  searchCat() {
+    const categories = this.state.selectedCategories.map(c => c.value);
+    const imageTypes = this.state.selectedImageTypes.map(t => t.value)
     const headers = new Headers();
     headers.append("x-api-key", apiKey);
     this.setState({ loadingCats: true })
     fetch(
-      `${baseUrl}/images/search?limit=${limit}&category_ids=${ids.join(",")}`
+      `${baseUrl}/images/search?limit=${limit}&category_ids=${categories.join(",")}&mime_types=${imageTypes.join(",")}`
     )
       .then(response => response.json())
+      .then(cats => {
+        return cats.map(cat => {
+          if (cat.breeds.length > 0) {
+            console.log(cat.breeds)
+          }
+          return cat
+        })
+      })
       .then(cats => this.setState({ cats, loadingCats: false }));
   }
 
   toggle(id) {
-    let newState = this.state.selected;
+    let newState = this.state.selectedCats;
     if (newState.includes(id)) {
       newState = newState.filter(i => id !== i);
     } else {
       newState.push(id);
     }
 
-    this.setState({ selected: newState });
+    this.setState({ selectedCats: newState });
   }
 
   render() {
-    const { cats, allCategories, loadingCats, selected } = this.state;
+    const { cats, allCategories, loadingCats, selectedCats, allImageTypes } = this.state;
     return (
       <div className="SearchCatForm">
-        <Select isMulti options={allCategories} onChange={this.searchCat} />
+        <Select isMulti options={allCategories} placeholder="Category" onChange={selectedCategories => this.setState({ selectedCategories }, this.searchCat)} className="SearchCatForm-select" />
+        <Select isMulti options={allImageTypes} placeholder="Image type" onChange={selectedImageTypes => this.setState({ selectedImageTypes }, this.searchCat)} className="SearchCatForm-select" />
         {loadingCats ? (
           <span>Loading cats...</span>
         ) : (
@@ -68,18 +93,18 @@ class SearchCatForm extends Component {
                   onClick={() => this.toggle(cat.id)}
                   key={cat.id}
                   className={
-                    selected.includes(cat.id) ? "SearchCatForm-selected" : ""
+                    selectedCats.includes(cat.id) ? "SearchCatForm-selected" : ""
                   }
                 />
               ))}
             </div>
           )}
-        {selected.length > 0 && (
+        {selectedCats.length > 0 && (
           <button
             className="SearchCatForm-submit"
             onClick={() => {
               const urls = cats
-                .filter(cat => selected.includes(cat.id))
+                .filter(cat => selectedCats.includes(cat.id))
                 .map(cat => cat.url);
               this.props.addCats(urls);
             }}
