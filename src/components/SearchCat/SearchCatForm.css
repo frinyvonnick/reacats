@@ -1,6 +1,14 @@
 .SearchCatForm-results {
   overflow: scroll;
   height: calc(100% - 55px);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.SearchCatForm-results img {
+  max-height: 150px;
+  max-width: 150px;
+  margin: 4px;
 }
 
 .SearchCatForm-choice {
