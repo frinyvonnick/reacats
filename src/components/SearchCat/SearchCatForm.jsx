@@ -20,7 +20,7 @@ class SearchCatForm extends Component {
       allCategories: [],
       loadingCats: false,
       selectedCats: [],
-      selectedCategories: [],
+      selectedCategory: null,
       selectedImageTypes: [],
       allImageTypes: imageTypes
     };
@@ -45,13 +45,13 @@ class SearchCatForm extends Component {
   }
 
   searchCat() {
-    const categories = this.state.selectedCategories.map(c => c.value);
-    const imageTypes = this.state.selectedImageTypes.map(t => t.value)
+    const { selectedImageTypes, selectedCategory } = this.state
+    const imageTypes = selectedImageTypes.map(t => t.value)
     const headers = new Headers();
     headers.append("x-api-key", apiKey);
     this.setState({ loadingCats: true })
     fetch(
-      `${baseUrl}/images/search?limit=${limit}&category_ids=${categories.join(",")}&mime_types=${imageTypes.join(",")}`
+      `${baseUrl}/images/search?limit=${limit}&category_ids=${selectedCategory ? selectedCategory.value : ""}&mime_types=${imageTypes.join(",")}`
     )
       .then(response => response.json())
       .then(cats => {
@@ -80,7 +80,7 @@ class SearchCatForm extends Component {
     const { cats, allCategories, loadingCats, selectedCats, allImageTypes } = this.state;
     return (
       <div className="SearchCatForm">
-        <Select isMulti options={allCategories} placeholder="Category" onChange={selectedCategories => this.setState({ selectedCategories }, this.searchCat)} className="SearchCatForm-select" />
+        <Select options={allCategories} placeholder="Category" onChange={selectedCategory => this.setState({ selectedCategory }, this.searchCat)} className="SearchCatForm-select" />
         <Select isMulti options={allImageTypes} placeholder="Image type" onChange={selectedImageTypes => this.setState({ selectedImageTypes }, this.searchCat)} className="SearchCatForm-select" />
         {loadingCats ? (
           <span>Loading cats...</span>
