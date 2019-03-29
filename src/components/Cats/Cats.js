@@ -1,10 +1,16 @@
 import React from 'react'
+import { Grid } from 'dragrid'
 
-export function Cats({ cats }) {
+import './Cats.css'
+
+export function Cats({ cats, moveCat }) {
   return (
-    <ul>
-      {cats.map((cat, index) => <li key={index}><img src={cat.url} alt="some cat" /></li>)}
-    </ul>
+    <Grid
+      style={{ maxWidth: '100%' }}
+      elements={cats}
+      renderElement={cat => <div className="Cats-item"><img draggable="false"  src={cat.url} alt="some cat" /></div>}
+      onDrop={moveCat}
+    />
   )
 }
 
