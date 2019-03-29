@@ -1,5 +1,4 @@
-.CatInput-overlay {
-  display: none;
+.SearchCat-overlay {
   background-color: rgba(0, 0, 0, .5);
   position: absolute;
   top: 0;
@@ -8,22 +7,10 @@
   bottom: 0;
   align-items: center;
   justify-content: center;
+  padding: 8%;
 }
 
-.CatInput-overlay-displayed {
-  display: flex;
-}
-
-.CatInput-input {
-  padding: 10px 15px;
-  width: 500px;
-  border: 0;
-  border-radius: 15px;
-  font-size: 24px;
-  font-weight: 300;
-}
-
-.CatInput-button {
+.SearchCat-button {
   border: 3px solid white;
   color: white;
   background-color: transparent;
@@ -32,4 +19,12 @@
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.SearchCat-content {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  color: #1e1e1e;
+  position: relative;
 }

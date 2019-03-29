@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 
 import { store } from './redux'
 import { AddCat, Cats } from './components'
 
 import './App.css'
+import SearchCat from './components/SearchCat';
 
 class App extends Component {
   render() {
@@ -13,7 +14,11 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             Reacats
-            <AddCat />
+
+            <div>
+              <SearchCat />
+              <AddCat />
+            </div>
           </header>
           <main>
             <Cats />
