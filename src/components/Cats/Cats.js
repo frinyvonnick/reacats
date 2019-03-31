@@ -6,9 +6,10 @@ import './Cats.css'
 export function Cats({ cats, moveCat }) {
   return (
     <Grid
-      style={{ maxWidth: '100%' }}
+      style={{ maxWidth: '100%', padding: '5px' }}
+      elementClassName="Cats-item"
       elements={cats}
-      renderElement={cat => <div className="Cats-item"><img draggable="false"  src={cat.url} alt="some cat" /></div>}
+      renderElement={cat => <img draggable="false"  src={cat.url} alt="some cat" />}
       onDrop={moveCat}
     />
   )
