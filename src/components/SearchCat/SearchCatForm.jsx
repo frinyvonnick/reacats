@@ -56,14 +56,6 @@ class SearchCatForm extends Component {
       }&mime_types=${imageTypes.join(",")}`
     )
       .then(response => response.json())
-      .then(cats => {
-        return cats.map(cat => {
-          if (cat.breeds.length > 0) {
-            console.log(cat.breeds);
-          }
-          return cat;
-        });
-      })
       .then(cats => this.setState({ cats, loadingCats: false }));
   }
 
@@ -86,6 +78,9 @@ class SearchCatForm extends Component {
       selectedCats,
       allImageTypes
     } = this.state;
+
+    const { excludedCats } = this.props;
+
     return (
       <div className="SearchCatForm">
         <Select
@@ -113,11 +108,15 @@ class SearchCatForm extends Component {
               <img
                 alt=""
                 src={cat.url}
-                onClick={() => this.toggle(cat.id)}
-                key={cat.id}
-                className={
-                  selectedCats.includes(cat.id) ? "SearchCatForm-selected" : ""
+                onClick={() =>
+                  !excludedCats.includes(cat.url) && this.toggle(cat.id)
                 }
+                key={cat.id}
+                className={`${
+                  selectedCats.includes(cat.id) ? "SearchCatForm-selected" : ""
+                }${
+                  excludedCats.includes(cat.url) ? "SearchCatForm-excluded" : ""
+                }`}
               />
             ))}
           </div>
