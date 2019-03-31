@@ -16,3 +16,7 @@ html {
   font-size: 35px;
   color: white;
 }
+
+.App-header-buttons > *:first-child {
+  margin-right: 10px;
+}

@@ -15,7 +15,7 @@ class App extends Component {
           <header className="App-header">
             Reacats
 
-            <div>
+            <div className="App-header-buttons">
               <SearchCat />
               <AddCat />
             </div>
