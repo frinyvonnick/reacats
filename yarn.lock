@@ -3348,10 +3348,10 @@ dotenv@6.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
   integrity sha512-FlWbnhgjtwD+uNLUGHbMykMOYQaTivdHEmYwAKFjn6GKe/CqY0fNae93ZHTd20snh9ZLr8mTzIL9m0APQ1pjQg==
 
-dragrid@^0.0.1-alpha.1:
-  version "0.0.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/dragrid/-/dragrid-0.0.1-alpha.1.tgz#6a1a5801a699463ee8b5a59d5758c2ad0dcdc398"
-  integrity sha512-OQu+LrFbfK5IcO9qpEAnYny+Hps5ktgVrUb5bZBzv880Yjrm27B+JNMgLkgRFjbZ9MxQS43RCu2Lsv0zNDxj6g==
+dragrid@0.0.1-alpha.3:
+  version "0.0.1-alpha.3"
+  resolved "https://registry.yarnpkg.com/dragrid/-/dragrid-0.0.1-alpha.3.tgz#0aea1e2d27179fef961e8c8911f533eccb99e1e4"
+  integrity sha512-lUyQVVbAXmPRt/QHM/am9uBDHnTk5t/vlQwYQALR01K3EhZP6DDmRAGdWzPqceWaPvnipmTQzLoQp4PcOUH3pw==
   dependencies:
     styled-components "^4.2.0"
 
