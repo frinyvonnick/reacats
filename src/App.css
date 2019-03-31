@@ -17,6 +17,6 @@ html {
   color: white;
 }
 
-.App-header-buttons *:first-child {
+.App-header-buttons > *:first-child {
   margin-right: 10px;
 }
