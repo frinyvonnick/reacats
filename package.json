@@ -5,6 +5,7 @@
   "dependencies": {
     "dragrid": "0.0.1-alpha.4",
     "react": "^16.8.4",
+    "react-cache": "^2.0.0-alpha.1",
     "react-dom": "^16.8.4",
     "react-redux": "^6.0.1",
     "react-scripts": "2.1.8",

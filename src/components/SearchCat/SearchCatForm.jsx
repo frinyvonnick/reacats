@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Select from "react-select";
+import { unstable_createResource } from "react-cache";
 import "./SearchCatForm.css";
 import config from "../../config.json";
 
@@ -7,6 +8,16 @@ const limit = 100;
 const imageTypes = ["jpg", "png", "gif"].map(v => ({ value: v, label: v }));
 const apiKey = config.apiKey;
 const baseUrl = "https://api.thecatapi.com/v1";
+
+const catResource = unstable_createResource((category, imageTypes) => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `${baseUrl}/images/search?limit=${limit}&category_ids=${
+        category ? category.value : ""
+      }&mime_types=${imageTypes.join(",")}`
+    ).then(response => response.json());
+  });
+});
 
 class SearchCatForm extends Component {
   constructor(props) {
