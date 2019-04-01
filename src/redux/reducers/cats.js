@@ -21,6 +21,8 @@ export function cats(state = defaultState, action) {
       return [...state, action.cat];
     case "ADD_CATS":
       return [...state, ...action.cats];
+    case "SET_CATS":
+      return action.cats;
     case "MOVE_CAT": {
       const copy = [...state];
       const element = copy.splice(action.source, 1)[0];
