@@ -27,6 +27,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "prettier": "^1.16.4",
     "react-grid-layout": "^0.16.6"
   }
 }

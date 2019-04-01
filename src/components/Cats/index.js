@@ -1,1 +1,1 @@
-export { CatsContainer as Cats } from './CatsContainer'
+export { CatsContainer as Cats } from "./CatsContainer";
