@@ -29,6 +29,7 @@ class SearchCat extends Component {
               onClick={e => e.stopPropagation()}
             >
               <SearchCatForm
+                excludedCats={this.props.excludedCats}
                 addCats={cats => {
                   this.setState({ displayed: false });
                   this.props.addCats(cats);
