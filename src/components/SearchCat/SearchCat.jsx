@@ -1,6 +1,6 @@
 import React, { Component, Fragment, Suspense } from "react";
 import "./SearchCat.css";
-const SearchCatForm = React.lazy(() => import("./SearchCatForm"));
+//const SearchCatForm = React.lazy(() => import("./SearchCatForm"));
 
 // Slow version to see fallback
 /*const SearchCatForm = React.lazy(
@@ -9,6 +9,14 @@ const SearchCatForm = React.lazy(() => import("./SearchCatForm"));
       setTimeout(() => resolve(import("./SearchCatForm.jsx")), 10000)
     )
 );*/
+
+// Buggy version to see error
+const SearchCatForm = React.lazy(
+  () =>
+    new Promise((resolve, reject) =>
+      setTimeout(() => reject("Can't load component"), 3000)
+    )
+);
 
 class SearchCat extends Component {
   constructor(props) {
@@ -35,19 +43,38 @@ class SearchCat extends Component {
               className="SearchCat-content"
               onClick={e => e.stopPropagation()}
             >
-              <Suspense fallback={<div>Loading lazy...</div>}>
-                <SearchCatForm
-                  addCats={cats => {
-                    this.setState({ displayed: false });
-                    this.props.addCats(cats);
-                  }}
-                />
-              </Suspense>
+              <LazyErrorBoundary>
+                <Suspense fallback={<div>Loading lazy...</div>}>
+                  <SearchCatForm
+                    addCats={cats => {
+                      this.setState({ displayed: false });
+                      this.props.addCats(cats);
+                    }}
+                  />
+                </Suspense>
+              </LazyErrorBoundary>
             </div>
           </div>
         )}
       </Fragment>
     );
+  }
+}
+
+class LazyErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: undefined
+    };
+  }
+  componentDidCatch(error) {
+    this.setState({ error: error });
+  }
+
+  render() {
+    const error = this.state.error;
+    return error ? <span>{error}</span> : this.props.children;
   }
 }
 
