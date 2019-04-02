@@ -76,7 +76,9 @@ class SearchCatForm extends Component {
       allCategories,
       loadingCats,
       selectedCats,
-      allImageTypes
+      allImageTypes,
+      selectedCategory,
+      selectedImageTypes
     } = this.state;
 
     const { excludedCats } = this.props;
@@ -86,6 +88,7 @@ class SearchCatForm extends Component {
         <Select
           options={allCategories}
           placeholder="Category"
+          value={selectedCategory}
           onChange={selectedCategory =>
             this.setState({ selectedCategory }, this.searchCat)
           }
@@ -95,6 +98,7 @@ class SearchCatForm extends Component {
           isMulti
           options={allImageTypes}
           placeholder="Image type"
+          value={selectedImageTypes}
           onChange={selectedImageTypes =>
             this.setState({ selectedImageTypes }, this.searchCat)
           }
