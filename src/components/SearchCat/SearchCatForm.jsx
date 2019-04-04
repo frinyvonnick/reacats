@@ -101,8 +101,8 @@ function SearchCatForm({ excludedCats, addCats }) {
 
 function toggle(array, value) {
   return array.includes(value)
-    ? [...array, value]
-    : array.filter(v => v !== value);
+    ? array.filter(v => v !== value)
+    : [...array, value];
 }
 
 export default SearchCatForm;
