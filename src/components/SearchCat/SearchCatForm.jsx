@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import Select from "react-select";
 import "./SearchCatForm.css";
 import config from "../../config.json";
@@ -8,13 +8,36 @@ const imageTypes = ["jpg", "png", "gif"].map(v => ({ value: v, label: v }));
 const apiKey = config.apiKey;
 const baseUrl = "https://api.thecatapi.com/v1";
 
+const SET_CATEGORIES = "SET_CATEGORIES";
+const SELECT_CATEGORY = "SELECT_CATEGORY";
+const SELECT_IMAGE_TYPES = "SELECT_IMAGE_TYPES";
+const SET_CATS = "SET_CATS";
+const SEARCH = "SEARCH";
+const TOGGLE = "TOGGLE";
+
+const initialState = {
+  cats: [],
+  categories: [],
+  loading: false,
+  selectedCats: [],
+  selectedCategory: undefined,
+  selectedImageTypes: []
+};
+
 function SearchCatForm({ excludedCats, addCats }) {
-  const [cats, setCats] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedCats, setSelectedCats] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState();
-  const [selectedImageTypes, setSelectedTimageTypes] = useState([]);
+  const [
+    {
+      cats,
+      categories,
+      loading,
+      selectedCats,
+      selectedCategory,
+      selectedImageTypes
+    },
+    dispatch
+  ] = useReducer(reducer, initialState);
+
+  console.log("selectedCats", selectedCats);
 
   useEffect(() => {
     fetch(`${baseUrl}/categories`)
@@ -22,26 +45,23 @@ function SearchCatForm({ excludedCats, addCats }) {
       .then(allCategories =>
         allCategories.map(({ name, id }) => ({ value: id, label: name }))
       )
-      .then(setCategories);
-  }, [setCategories]);
+      .then(categories => dispatch({ type: SET_CATEGORIES, categories }));
+  }, []);
 
   useEffect(() => {
     // FIXME store values ?
     const imageTypes = selectedImageTypes.map(t => t.value);
     const headers = new Headers();
     headers.append("x-api-key", apiKey);
-    setLoading(true);
+    dispatch({ type: SEARCH });
     fetch(
       `${baseUrl}/images/search?limit=${limit}&category_ids=${
         selectedCategory ? selectedCategory.value : ""
       }&mime_types=${imageTypes.join(",")}`
     )
       .then(response => response.json())
-      .then(cats => {
-        setCats(cats);
-        setLoading(false);
-      });
-  }, [setLoading, setCats, selectedCategory, selectedImageTypes]);
+      .then(cats => dispatch({ type: SET_CATS, cats }));
+  }, [selectedCategory, selectedImageTypes]);
 
   return (
     <div className="SearchCatForm">
@@ -49,7 +69,7 @@ function SearchCatForm({ excludedCats, addCats }) {
         options={categories}
         placeholder="Category"
         value={selectedCategory}
-        onChange={v => setSelectedCategory(v)}
+        onChange={category => dispatch({ type: SELECT_CATEGORY, category })}
         className="SearchCatForm-select"
       />
       <Select
@@ -57,7 +77,9 @@ function SearchCatForm({ excludedCats, addCats }) {
         options={imageTypes}
         placeholder="Image type"
         value={selectedImageTypes}
-        onChange={t => setSelectedTimageTypes(t)}
+        onChange={imageTypes =>
+          dispatch({ type: SELECT_IMAGE_TYPES, imageTypes })
+        }
         className="SearchCatForm-select"
       />
       {loading ? (
@@ -70,7 +92,7 @@ function SearchCatForm({ excludedCats, addCats }) {
               src={cat.url}
               onClick={() =>
                 !excludedCats.includes(cat.url) &&
-                setSelectedCats(toggle(selectedCats, cat.id))
+                dispatch({ type: TOGGLE, cat })
               }
               key={cat.id}
               className={`${
@@ -99,10 +121,48 @@ function SearchCatForm({ excludedCats, addCats }) {
   );
 }
 
+function reducer(state, action) {
+  switch (action.type) {
+    case SET_CATEGORIES:
+      return {
+        ...state,
+        categories: action.categories
+      };
+    case SEARCH:
+      return {
+        ...state,
+        loading: true
+      };
+    case SET_CATS:
+      return {
+        ...state,
+        loading: false,
+        cats: action.cats
+      };
+    case TOGGLE:
+      return {
+        ...state,
+        selectedCats: toggle(state.selectedCats, action.cat.id)
+      };
+    case SELECT_CATEGORY:
+      return {
+        ...state,
+        selectedCategory: action.category
+      };
+    case SELECT_IMAGE_TYPES:
+      return {
+        ...state,
+        selectedImageTypes: action.imageTypes
+      };
+    default:
+      return state;
+  }
+}
+
 function toggle(array, value) {
   return array.includes(value)
-    ? [...array, value]
-    : array.filter(v => v !== value);
+    ? array.filter(v => v !== value)
+    : [...array, value];
 }
 
 export default SearchCatForm;
