@@ -17,8 +17,8 @@ class SearchCatForm extends Component {
 
     this.state = {
       cats: [],
-      allCategories: [],
-      loadingCats: false,
+      categories: [],
+      loading: false,
       selectedCats: [],
       selectedCategory: null,
       selectedImageTypes: []
@@ -26,10 +26,10 @@ class SearchCatForm extends Component {
 
     fetch(`${baseUrl}/categories`)
       .then(response => response.json())
-      .then(allCategories =>
-        allCategories.map(({ name, id }) => ({ value: id, label: name }))
+      .then(categories =>
+        categories.map(({ name, id }) => ({ value: id, label: name }))
       )
-      .then(allCategories => this.setState({ allCategories }));
+      .then(categories => this.setState({ categories }));
 
     fetch(`${baseUrl}/breeds`)
       .then(response => response.json())
@@ -55,7 +55,7 @@ class SearchCatForm extends Component {
       }&mime_types=${imageTypes.join(",")}`
     )
       .then(response => response.json())
-      .then(cats => this.setState({ cats, loadingCats: false }));
+      .then(cats => this.setState({ cats, loading: false }));
   }
 
   toggle(id) {
@@ -73,7 +73,7 @@ class SearchCatForm extends Component {
     const {
       cats,
       allCategories,
-      loadingCats,
+      loading,
       selectedCats,
       selectedCategory,
       selectedImageTypes
@@ -102,7 +102,7 @@ class SearchCatForm extends Component {
           }
           className="SearchCatForm-select"
         />
-        {loadingCats ? (
+        {loading ? (
           <span>Loading cats...</span>
         ) : (
           <div className="SearchCatForm-results">
