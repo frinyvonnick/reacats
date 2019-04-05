@@ -21,8 +21,7 @@ class SearchCatForm extends Component {
       loadingCats: false,
       selectedCats: [],
       selectedCategory: null,
-      selectedImageTypes: [],
-      allImageTypes: imageTypes
+      selectedImageTypes: []
     };
 
     fetch(`${baseUrl}/categories`)
@@ -64,7 +63,7 @@ class SearchCatForm extends Component {
     if (newState.includes(id)) {
       newState = newState.filter(i => id !== i);
     } else {
-      newState.push(id);
+      newState = [...newState, id];
     }
 
     this.setState({ selectedCats: newState });
@@ -76,7 +75,6 @@ class SearchCatForm extends Component {
       allCategories,
       loadingCats,
       selectedCats,
-      allImageTypes,
       selectedCategory,
       selectedImageTypes
     } = this.state;
@@ -96,7 +94,7 @@ class SearchCatForm extends Component {
         />
         <Select
           isMulti
-          options={allImageTypes}
+          options={imageTypes}
           placeholder="Image type"
           value={selectedImageTypes}
           onChange={selectedImageTypes =>
