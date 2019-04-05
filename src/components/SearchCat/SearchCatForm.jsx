@@ -37,7 +37,47 @@ function SearchCatForm({ excludedCats, addCats }) {
     dispatch
   ] = useReducer(reducer, initialState);
 
-  console.log("selectedCats", selectedCats);
+  function reducer(state, action) {
+    switch (action.type) {
+      case SET_CATEGORIES:
+        return {
+          ...state,
+          categories: action.categories
+        };
+      case SEARCH:
+        return {
+          ...state,
+          loading: true
+        };
+      case SET_CATS:
+        return {
+          ...state,
+          loading: false,
+          cats: action.cats
+        };
+      case TOGGLE:
+        if (!excludedCats.includes(action.cat.url)) {
+          return {
+            ...state,
+            selectedCats: toggle(state.selectedCats, action.cat.id)
+          };
+        } else {
+          return state;
+        }
+      case SELECT_CATEGORY:
+        return {
+          ...state,
+          selectedCategory: action.category
+        };
+      case SELECT_IMAGE_TYPES:
+        return {
+          ...state,
+          selectedImageTypes: action.imageTypes
+        };
+      default:
+        return state;
+    }
+  }
 
   useEffect(() => {
     fetch(`${baseUrl}/categories`)
@@ -90,10 +130,7 @@ function SearchCatForm({ excludedCats, addCats }) {
             <img
               alt=""
               src={cat.url}
-              onClick={() =>
-                !excludedCats.includes(cat.url) &&
-                dispatch({ type: TOGGLE, cat })
-              }
+              onClick={() => dispatch({ type: TOGGLE, cat })}
               key={cat.id}
               className={`${
                 selectedCats.includes(cat.id) ? "SearchCatForm-selected" : ""
@@ -119,44 +156,6 @@ function SearchCatForm({ excludedCats, addCats }) {
       )}
     </div>
   );
-}
-
-function reducer(state, action) {
-  switch (action.type) {
-    case SET_CATEGORIES:
-      return {
-        ...state,
-        categories: action.categories
-      };
-    case SEARCH:
-      return {
-        ...state,
-        loading: true
-      };
-    case SET_CATS:
-      return {
-        ...state,
-        loading: false,
-        cats: action.cats
-      };
-    case TOGGLE:
-      return {
-        ...state,
-        selectedCats: toggle(state.selectedCats, action.cat.id)
-      };
-    case SELECT_CATEGORY:
-      return {
-        ...state,
-        selectedCategory: action.category
-      };
-    case SELECT_IMAGE_TYPES:
-      return {
-        ...state,
-        selectedImageTypes: action.imageTypes
-      };
-    default:
-      return state;
-  }
 }
 
 function toggle(array, value) {
