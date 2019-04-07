@@ -65,7 +65,7 @@ class SearchCatForm extends Component {
   render() {
     const {
       cats,
-      allCategories,
+      categories,
       loading,
       selectedCats,
       selectedCategory,
@@ -77,7 +77,7 @@ class SearchCatForm extends Component {
     return (
       <div className="SearchCatForm">
         <Select
-          options={allCategories}
+          options={categories}
           placeholder="Category"
           value={selectedCategory}
           onChange={selectedCategory =>
