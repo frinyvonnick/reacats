@@ -17,20 +17,19 @@ class SearchCatForm extends Component {
 
     this.state = {
       cats: [],
-      allCategories: [],
-      loadingCats: false,
+      categories: [],
+      loading: false,
       selectedCats: [],
       selectedCategory: null,
-      selectedImageTypes: [],
-      allImageTypes: imageTypes
+      selectedImageTypes: []
     };
 
     fetch(`${baseUrl}/categories`)
       .then(response => response.json())
-      .then(allCategories =>
-        allCategories.map(({ name, id }) => ({ value: id, label: name }))
+      .then(categories =>
+        categories.map(({ name, id }) => ({ value: id, label: name }))
       )
-      .then(allCategories => this.setState({ allCategories }));
+      .then(categories => this.setState({ categories }));
 
     fetch(`${baseUrl}/breeds`)
       .then(response => response.json())
@@ -56,7 +55,7 @@ class SearchCatForm extends Component {
       }&mime_types=${imageTypes.join(",")}`
     )
       .then(response => response.json())
-      .then(cats => this.setState({ cats, loadingCats: false }));
+      .then(cats => this.setState({ cats, loading: false }));
   }
 
   toggle(id) {
@@ -64,7 +63,7 @@ class SearchCatForm extends Component {
     if (newState.includes(id)) {
       newState = newState.filter(i => id !== i);
     } else {
-      newState.push(id);
+      newState = [...newState, id];
     }
 
     this.setState({ selectedCats: newState });
@@ -74,9 +73,8 @@ class SearchCatForm extends Component {
     const {
       cats,
       allCategories,
-      loadingCats,
+      loading,
       selectedCats,
-      allImageTypes,
       selectedCategory,
       selectedImageTypes
     } = this.state;
@@ -96,7 +94,7 @@ class SearchCatForm extends Component {
         />
         <Select
           isMulti
-          options={allImageTypes}
+          options={imageTypes}
           placeholder="Image type"
           value={selectedImageTypes}
           onChange={selectedImageTypes =>
@@ -104,7 +102,7 @@ class SearchCatForm extends Component {
           }
           className="SearchCatForm-select"
         />
-        {loadingCats ? (
+        {loading ? (
           <span>Loading cats...</span>
         ) : (
           <div className="SearchCatForm-results">
