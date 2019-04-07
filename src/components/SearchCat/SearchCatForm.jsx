@@ -35,6 +35,12 @@ class SearchCatForm extends Component {
     this.searchCat();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.limit !== this.props.limit) {
+      this.searchCat();
+    }
+  }
+
   searchCat() {
     const { limit } = this.props;
     const { selectedImageTypes, selectedCategory } = this.state;
