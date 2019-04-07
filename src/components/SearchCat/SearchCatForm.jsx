@@ -30,13 +30,6 @@ class SearchCatForm extends Component {
         categories.map(({ name, id }) => ({ value: id, label: name }))
       )
       .then(categories => this.setState({ categories }));
-
-    fetch(`${baseUrl}/breeds`)
-      .then(response => response.json())
-      .then(allBreeds =>
-        allBreeds.map(({ name, id }) => ({ value: id, label: name }))
-      )
-      .then(allBreeds => this.setState({ allBreeds }));
   }
 
   componentDidMount() {
