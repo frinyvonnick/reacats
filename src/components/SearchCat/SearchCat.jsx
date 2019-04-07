@@ -1,7 +1,14 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, Suspense } from "react";
 import "./SearchCat.css";
-import "./SearchCatForm";
-import SearchCatForm from "./SearchCatForm";
+const SearchCatForm = React.lazy(() => import("./SearchCatForm"));
+
+// Slow version to see fallback
+/*const SearchCatForm = React.lazy(
+  () =>
+    new Promise((resolve, reject) =>
+      setTimeout(() => resolve(import("./SearchCatForm.jsx")), 10000)
+    )
+);*/
 
 class SearchCat extends Component {
   constructor(props) {
@@ -28,13 +35,14 @@ class SearchCat extends Component {
               className="SearchCat-content"
               onClick={e => e.stopPropagation()}
             >
-              <SearchCatForm
-                excludedCats={this.props.excludedCats}
-                addCats={cats => {
-                  this.setState({ displayed: false });
-                  this.props.addCats(cats);
-                }}
-              />
+              <Suspense fallback={<div>Loading lazy...</div>}>
+                <SearchCatForm
+                  addCats={cats => {
+                    this.setState({ displayed: false });
+                    this.props.addCats(cats);
+                  }}
+                />
+              </Suspense>
             </div>
           </div>
         )}
