@@ -3,7 +3,6 @@ import Select from "react-select";
 import "./SearchCatForm.css";
 import config from "../../config.json";
 
-const limit = 100;
 const imageTypes = ["jpg", "png", "gif"].map(v => ({ value: v, label: v }));
 const apiKey = config.apiKey;
 const baseUrl = "https://api.thecatapi.com/v1";
@@ -24,7 +23,7 @@ const initialState = {
   selectedImageTypes: []
 };
 
-function SearchCatForm({ excludedCats, addCats }) {
+function SearchCatForm({ excludedCats, addCats, limit }) {
   const [
     {
       cats,
@@ -101,7 +100,7 @@ function SearchCatForm({ excludedCats, addCats }) {
     )
       .then(response => response.json())
       .then(cats => dispatch({ type: SET_CATS, cats }));
-  }, [selectedCategory, selectedImageTypes]);
+  }, [selectedCategory, selectedImageTypes, limit]);
 
   return (
     <div className="SearchCatForm">
