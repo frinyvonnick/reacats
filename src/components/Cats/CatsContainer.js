@@ -1,11 +1,16 @@
-import { connect } from "react-redux";
+import React, {useContext} from 'react';
+import Cats from './Cats';
 
-import Cats from "./Cats";
+import CatContext from '../../CatContext';
 
-export const CatsContainer = connect(
-  state => ({ cats: state.cats }),
-  dispatch => ({
-    moveCat: (source, target) => dispatch({ type: "MOVE_CAT", source, target }),
-    readCats: cats => dispatch({ type: "SET_CATS", cats })
-  })
-)(Cats);
+export function CatsContainer(props) {
+  const {cats, moveCat, setCats} = useContext(CatContext);
+  return (
+    <Cats
+      cats={cats}
+      moveCat={moveCat}
+      readCats={setCats}
+      {...props}
+    />
+  );
+}
