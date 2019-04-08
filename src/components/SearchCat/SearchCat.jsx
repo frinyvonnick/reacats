@@ -18,7 +18,7 @@ class SearchCat extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <button className="SearchCat-button" onClick={this.toggleForm}>
           Search cat
         </button>
@@ -39,7 +39,7 @@ class SearchCat extends Component {
             </div>
           </div>
         )}
-      </div>
+      </>
     );
   }
 }
