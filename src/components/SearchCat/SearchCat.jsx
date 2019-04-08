@@ -1,47 +1,36 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import "./SearchCat.css";
 import "./SearchCatForm";
 import SearchCatForm from "./SearchCatForm";
 
-class SearchCat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      displayed: false
-    };
-    this.toggleForm = this.toggleForm.bind(this);
-  }
+function SearchCat(props) {
+  const [displayed, setDisplayed] = useState(false)
+  const toggleForm = () => setDisplayed(!displayed)
 
-  toggleForm() {
-    this.setState(state => ({ displayed: !state.displayed }));
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <button className="SearchCat-button" onClick={this.toggleForm}>
-          Search cat
-        </button>
-        {this.state.displayed && (
-          <div className="SearchCat-overlay" onClick={this.toggleForm}>
-            <div
-              className="SearchCat-content"
-              onClick={e => e.stopPropagation()}
-            >
-              <SearchCatForm
-                limit={100}
-                excludedCats={this.props.excludedCats}
-                addCats={cats => {
-                  this.setState({ displayed: false });
-                  this.props.addCats(cats);
-                }}
-              />
-            </div>
+  return (
+    <Fragment>
+      <button className="SearchCat-button" onClick={toggleForm}>
+        Search cat
+      </button>
+      {displayed && (
+        <div className="SearchCat-overlay" onClick={toggleForm}>
+          <div
+            className="SearchCat-content"
+            onClick={e => e.stopPropagation()}
+          >
+            <SearchCatForm
+              limit={100}
+              excludedCats={props.excludedCats}
+              addCats={cats => {
+                setDisplayed(false);
+                props.addCats(cats);
+              }}
+            />
           </div>
-        )}
-      </Fragment>
-    );
-  }
+        </div>
+      )}
+    </Fragment>
+  )
 }
 
 export default SearchCat;
