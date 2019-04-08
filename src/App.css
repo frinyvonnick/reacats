@@ -17,6 +17,10 @@ html {
   color: white;
 }
 
+.App-header-buttons {
+  display: flex;
+}
+
 .App-header-buttons > *:first-child {
   margin-right: 10px;
 }

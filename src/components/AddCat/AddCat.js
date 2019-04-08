@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import "./AddCat.css";
 
@@ -25,7 +25,7 @@ export class AddCat extends Component {
 
   render() {
     return (
-      <Fragment>
+      <div>
         <button className="CatInput-button" onClick={this.toggleInput}>
           Add cat
         </button>
@@ -44,7 +44,7 @@ export class AddCat extends Component {
             onKeyPress={this.addCat}
           />
         </div>
-      </Fragment>
+      </div>
     );
   }
 }

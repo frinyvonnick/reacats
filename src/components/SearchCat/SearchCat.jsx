@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import "./SearchCat.css";
 import "./SearchCatForm";
 import SearchCatForm from "./SearchCatForm";
@@ -18,7 +18,7 @@ class SearchCat extends Component {
 
   render() {
     return (
-      <Fragment>
+      <div>
         <button className="SearchCat-button" onClick={this.toggleForm}>
           Search cat
         </button>
@@ -39,7 +39,7 @@ class SearchCat extends Component {
             </div>
           </div>
         )}
-      </Fragment>
+      </div>
     );
   }
 }

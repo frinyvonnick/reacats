@@ -7,7 +7,6 @@ class Cats extends Component {
   componentDidMount() {
     const previousCats = localStorage.getItem("cats");
     if (previousCats) {
-      console.log(previousCats);
       this.props.readCats(JSON.parse(previousCats));
     }
   }
