@@ -1,19 +1,19 @@
-import React, { Component, Fragment } from "react";
-import "./SearchCat.css";
-import "./SearchCatForm";
-import SearchCatForm from "./SearchCatForm";
+import React, {Component, Fragment} from 'react';
+import './SearchCat.css';
+import './SearchCatForm';
+import SearchCatForm from './SearchCatForm';
 
 class SearchCat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayed: false
+      displayed: false,
     };
     this.toggleForm = this.toggleForm.bind(this);
   }
 
   toggleForm() {
-    this.setState(state => ({ displayed: !state.displayed }));
+    this.setState(state => ({displayed: !state.displayed}));
   }
 
   render() {
@@ -26,13 +26,12 @@ class SearchCat extends Component {
           <div className="SearchCat-overlay" onClick={this.toggleForm}>
             <div
               className="SearchCat-content"
-              onClick={e => e.stopPropagation()}
-            >
+              onClick={e => e.stopPropagation()}>
               <SearchCatForm
                 limit={100}
                 excludedCats={this.props.excludedCats}
                 addCats={cats => {
-                  this.setState({ displayed: false });
+                  this.setState({displayed: false});
                   this.props.addCats(cats);
                 }}
               />
