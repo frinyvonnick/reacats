@@ -1,13 +1,10 @@
-import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import { AddCat } from "./AddCat";
 
-import CatContext from "../../CatContext";
-
-export class AddCatContainer extends Component {
-  static contextType = CatContext;
-  render() {
-    return (
-      <AddCat addCat={url => this.context.addCat({ url })} {...this.props} />
-    );
-  }
-}
+export const AddCatContainer = connect(
+  undefined,
+  dispatch => ({
+    addCat: url => dispatch({ type: "ADD_CAT", cat: { url } })
+  })
+)(AddCat);
