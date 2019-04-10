@@ -1,26 +1,26 @@
-import React, { Component, Fragment } from "react";
+import React, {Component, Fragment} from 'react';
 
-import "./AddCat.css";
+import './AddCat.css';
 
 export class AddCat extends Component {
   state = {
-    value: "",
-    displayed: false
+    value: '',
+    displayed: false,
   };
 
   onChange = event => {
-    this.setState({ value: event.target.value });
+    this.setState({value: event.target.value});
   };
 
   addCat = e => {
-    if (e.key !== "Enter") return;
+    if (e.key !== 'Enter') return;
     this.props.addCat(this.state.value);
-    this.setState({ value: "" });
+    this.setState({value: ''});
     this.toggleInput();
   };
 
   toggleInput = () => {
-    this.setState(state => ({ ...state, displayed: !state.displayed }));
+    this.setState(state => ({...state, displayed: !state.displayed}));
   };
 
   render() {
@@ -32,9 +32,8 @@ export class AddCat extends Component {
         <div
           onClick={this.toggleInput}
           className={`CatInput-overlay${
-            this.state.displayed ? " CatInput-overlay-displayed" : ""
-          }`}
-        >
+            this.state.displayed ? ' CatInput-overlay-displayed' : ''
+          }`}>
           <input
             className="CatInput-input"
             type="text"
