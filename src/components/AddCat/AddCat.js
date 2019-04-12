@@ -25,7 +25,7 @@ export class AddCat extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <button className="CatInput-button" onClick={this.toggleInput}>
           Add cat
         </button>
@@ -44,7 +44,7 @@ export class AddCat extends Component {
             onKeyPress={this.addCat}
           />
         </div>
-      </div>
+      </>
     );
   }
 }
