@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./SearchCat.css";
-import "./SearchCatForm";
 import SearchCatForm from "./SearchCatForm";
 
 class SearchCat extends Component {
