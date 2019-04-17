@@ -1,20 +1,19 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import Cats from "./Cats";
 
 import CatContext from "../../CatContext";
 
-export class CatsContainer extends Component {
-  static contextType = CatContext;
-  render() {
-    return (
-      <Cats
-        cats={this.context.cats}
-        moveCat={(source, target) =>
-          this.context.dispatch({ type: "MOVE_CAT", source, target })
-        }
-        readCats={cats => this.context.dispatch({ type: "SET_CATS", cats })}
-        {...this.props}
-      />
-    );
-  }
+export function CatsContainer(props) {
+  const { dispatch, cats } = useContext(CatContext);
+
+  return (
+    <Cats
+      cats={cats}
+      moveCat={(source, target) =>
+        dispatch({ type: "MOVE_CAT", source, target })
+      }
+      readCats={cats => dispatch({ type: "SET_CATS", cats })}
+      {...props}
+    />
+  );
 }
