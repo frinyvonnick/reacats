@@ -9,8 +9,10 @@ export class CatsContainer extends Component {
     return (
       <Cats
         cats={this.context.cats}
-        moveCat={this.context.moveCat}
-        readCats={this.context.setCats}
+        moveCat={(source, target) =>
+          this.context.dispatch({ type: "MOVE_CAT", source, target })
+        }
+        readCats={cats => this.context.dispatch({ type: "SET_CATS", cats })}
         {...this.props}
       />
     );
