@@ -1,10 +1,12 @@
-import { connect } from "react-redux";
+import React from 'react'
+import CatContext from '../../CatContext'
 
 import { AddCat } from "./AddCat";
 
-export const AddCatContainer = connect(
-  undefined,
-  dispatch => ({
-    addCat: url => dispatch({ type: "ADD_CAT", cat: { url } })
-  })
-)(AddCat);
+export function AddCatContainer(props) {
+  return (
+    <CatContext.Consumer>
+      {({ addCat }) => <AddCat addCat={addCat} {...props} />}
+    </CatContext.Consumer>
+  )
+} 
