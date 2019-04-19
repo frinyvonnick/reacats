@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./SearchCat.css";
-import SearchCatForm from "./SearchCatForm";
+const SearchCatForm = React.lazy(() => import("./SearchCatForm"));
 
 class SearchCat extends Component {
   constructor(props) {
@@ -27,14 +27,16 @@ class SearchCat extends Component {
               className="SearchCat-content"
               onClick={e => e.stopPropagation()}
             >
-              <SearchCatForm
-                limit={100}
-                excludedCats={this.props.excludedCats}
-                addCats={cats => {
-                  this.setState({ displayed: false });
-                  this.props.addCats(cats);
-                }}
-              />
+              <React.Suspense fallback="Loading component...">
+                <SearchCatForm
+                  limit={100}
+                  excludedCats={this.props.excludedCats}
+                  addCats={cats => {
+                    this.setState({ displayed: false });
+                    this.props.addCats(cats);
+                  }}
+                />
+              </React.Suspense>
             </div>
           </div>
         )}
