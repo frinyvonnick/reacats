@@ -4,6 +4,9 @@ import CatContext from "../../CatContext";
 import { AddCat } from "./AddCat";
 
 export function AddCatContainer(props) {
-  const { addCat } = React.useContext(CatContext);
-  return <AddCat addCat={addCat} {...props} />;
+  return (
+    <CatContext.Consumer>
+      {({ addCat }) => <AddCat addCat={addCat} {...props} />}
+    </CatContext.Consumer>
+  );
 }
