@@ -1,12 +1,17 @@
-# reacats
+# Reacats
 
-👍 Points positifs
+Demo application for DevoxxFR 2019.
 
-- Logique de changement de state centralisée
-- Pas dur à appréhender quand on vient de redux
-- Simplification de la liste de dépendance des effets (plus besoin de setState)
+This application aims to demonstrate all the cool new stuff in React 16.
 
-👎 Points négatifs
+## Usage
 
-- Un peu verbeux
-- Si on veut utiliser les props le reducer doit être inline
+To use this application, you'll need to get an API key from [the cat API](https://thecatapi.com).
+
+This API key has to be written in a `src/config.json` file using the template file provided below.
+
+```json
+{
+  "apiKey": "<INSERT YOUR API KEY HERE>"
+}
+```
