@@ -1,10 +1,15 @@
-import { connect } from "react-redux";
-
+import React, { useContext } from "react";
 import { AddCat } from "./AddCat";
 
-export const AddCatContainer = connect(
-  undefined,
-  dispatch => ({
-    addCat: url => dispatch({ type: "ADD_CAT", cat: { url } })
-  })
-)(AddCat);
+import CatContext from "../../CatContext";
+
+export function AddCatContainer(props) {
+  const { dispatch } = useContext(CatContext);
+
+  return (
+    <AddCat
+      addCat={url => dispatch({ type: "ADD_CAT", cat: { url } })}
+      {...props}
+    />
+  );
+}

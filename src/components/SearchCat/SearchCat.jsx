@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./SearchCat.css";
-import "./SearchCatForm";
-import SearchCatForm from "./SearchCatForm";
+const SearchCatForm = React.lazy(() => import("./SearchCatForm"));
 
 class SearchCat extends Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class SearchCat extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <button className="SearchCat-button" onClick={this.toggleForm}>
           Search cat
         </button>
@@ -28,19 +27,40 @@ class SearchCat extends Component {
               className="SearchCat-content"
               onClick={e => e.stopPropagation()}
             >
-              <SearchCatForm
-                limit={100}
-                excludedCats={this.props.excludedCats}
-                addCats={cats => {
-                  this.setState({ displayed: false });
-                  this.props.addCats(cats);
-                }}
-              />
+              <LazyErrorBoundary>
+                <React.Suspense fallback="Loading component...">
+                  <SearchCatForm
+                    limit={100}
+                    excludedCats={this.props.excludedCats}
+                    addCats={cats => {
+                      this.setState({ displayed: false });
+                      this.props.addCats(cats);
+                    }}
+                  />
+                </React.Suspense>
+              </LazyErrorBoundary>
             </div>
           </div>
         )}
-      </div>
+      </>
     );
+  }
+}
+
+class LazyErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: undefined
+    };
+  }
+  componentDidCatch(error) {
+    this.setState({ error: error.message });
+  }
+
+  render() {
+    const error = this.state.error;
+    return error ? <span>{error}</span> : this.props.children;
   }
 }
 

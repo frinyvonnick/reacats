@@ -1,10 +1,15 @@
-import { connect } from "react-redux";
+import React, { useContext } from "react";
 import SearchCat from "./SearchCat";
+import CatContext from "../../CatContext";
 
-export default connect(
-  state => ({ excludedCats: state.cats.map(c => c.url) }),
-  dispatch => ({
-    addCats: urls =>
-      dispatch({ type: "ADD_CATS", cats: urls.map(url => ({ url })) })
-  })
-)(SearchCat);
+export default function SearchCatContainer(props) {
+  const { dispatch, cats } = useContext(CatContext);
+
+  const excludedCats = cats.map(c => c.url);
+  const addCats = urls =>
+    dispatch({
+      type: "ADD_CATS",
+      cats: urls.map(url => ({ url }))
+    });
+  return <SearchCat excludedCats={excludedCats} addCats={addCats} {...props} />;
+}

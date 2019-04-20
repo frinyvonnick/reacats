@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
     "dragrid": "0.0.1-alpha.4",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-redux": "^6.0.1",
@@ -18,7 +20,14 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "plugins": [
+      "react-hooks"
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    }
   },
   "browserslist": [
     ">0.2%",
@@ -27,6 +36,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^1.6.0",
     "prettier": "^1.16.4",
     "react-grid-layout": "^0.16.6"
   }
