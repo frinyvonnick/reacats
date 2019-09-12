@@ -1,0 +1,288 @@
+{
+  // Place your snippets for javascriptreact here. Each snippet is defined under a snippet name and has a prefix, body and
+  // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+  // same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "UseState hook refactoring": {
+    "prefix": "presState",
+    "body": [
+      "const [cats, setCats] = useState([]);",
+      "const [categories, setCategories] = useState([]);",
+      "const [loading, setLoading] = useState(false);",
+      "const [selectedCats, setSelectedCats] = useState([]);",
+      "const [selectedCategory, setSelectedCategory] = useState(undefined);",
+      "const [selectedImageTypes, setSelectedImageTypes] = useState([]);"
+    ],
+    "description": "useState for hook refactoring"
+  },
+  "Toggle element in an array": {
+    "prefix": "presToggle",
+    "body": [
+      "function toggle(array, value) {",
+      "\tif (array.includes(value)) {",
+      "\t\treturn array.filter(v => v !== value);",
+      "\t} else {",
+      "\t\treturn [...array, value];",
+      "\t}",
+      "}"
+    ],
+    "description": "Toggle a function in an array"
+  },
+  "Define action": {
+    "prefix": "presAction",
+    "body": ["const $1 = \"$1\";"],
+    "description": "Toggle a function in an array"
+  },
+  "Define actions": {
+    "prefix": "presActions",
+    "body": [
+      "const SELECT_CATEGORY = \"SELECT_CATEGORY\";",
+      "const SET_CATEGORIES = \"SET_CATEGORIES\";",
+      "const SEARCH = \"SEARCH\";",
+      "const SELECT_IMAGE_TYPES = \"SELECT_IMAGE_TYPES\";",
+      "const TOGGLE = \"TOGGLE\";"
+    ],
+    "description": "Define all actions"
+  },
+  "Define reducer": {
+    "prefix": "presReducer",
+    "body": [
+      "switch (action.type) {",
+      "  case SET_CATEGORIES:",
+      "    return {",
+      "      ...state,",
+      "      categories: action.categories",
+      "    };",
+      "  case SELECT_CATEGORY:",
+      "    return {",
+      "      ...state,",
+      "      selectedCategory: action.category",
+      "    };",
+      "  case SELECT_IMAGE_TYPES:",
+      "    return {",
+      "      ...state,",
+      "      selectedImageTypes: action.imageTypes",
+      "    };",
+      "  case SEARCH:",
+      "  case SET_CATS:",
+      "  case TOGGLE:",
+      "    if (!excludedCats.includes(action.cat.url)) {",
+      "      return {",
+      "        ...state,",
+      "        selectedCats: toggle(state.selectedCats, action.cat.id)",
+      "      };",
+      "    }",
+      "    return state;",
+      "  default:",
+      "    throw new Error(`Unexpected action ${action}`);",
+      "}"
+    ],
+    "description": "Define reducer backbone"
+  },
+  "Return state": {
+    "prefix": "presState",
+    "body": ["return {", "\t\t...state,", "\t\t$1", "}"],
+    "description": "Return state from reducer"
+  },
+  "Initial state": {
+    "prefix": "presInitialState",
+    "body": [
+      "categories: [],",
+      "loading: false,",
+      "selectedCats: [],",
+      "selectedCategory: undefined,",
+      "selectedImageTypes: []"
+    ],
+    "description": "Define initial state"
+  },
+  "dispatch action": {
+    "prefix": "presDispatch",
+    "body": "dispatch({ type: $1 })",
+    "description": "Dispatch an action"
+  },
+  "spread state": {
+    "prefix": "presSpread",
+    "body": [
+      "{",
+      "  cats,",
+      "  categories,",
+      "  loading,",
+      "  selectedCats,",
+      "  selectedCategory,",
+      "  selectedImageTypes",
+      "}"
+    ],
+    "description": "Spread reducer state"
+  },
+  "toggle with state": {
+    "prefix": "presTstate",
+    "body": "setSelectedCats(toggle(selectedCats, cat.id))",
+    "description": "Toggle selected cat using useState"
+  },
+  "replace category selection (reducer)": {
+    "prefix": "presCatReducer",
+    "body": "dispatch({ type: SELECT_CATEGORY, category: selectedCategory })",
+    "description": "Replace category selection (reducer)"
+  },
+  "replace image type selection (reducer)": {
+    "prefix": "presImgReducer",
+    "body": "dispatch({ type: SELECT_IMAGE_TYPES, imageTypes: selectedImageTypes })",
+    "description": "Replace image type selection (reducer)"
+  },
+  "error boundary": {
+    "prefix": "presError",
+    "body": [
+      "class LazyErrorBoundary extends Component {",
+      "  constructor(props) {",
+      "    super(props);",
+      "    this.state = {",
+      "      error: undefined",
+      "    };",
+      "  }",
+      "  componentDidCatch(error) {",
+      "    $1",
+      "  }",
+      "",
+      "  render() {",
+      "    const error = this.state.error;",
+      "    return error ? <span>{error}</span> : this.props.children;",
+      "  }",
+      "}"
+    ],
+    "description": "Define error boundary"
+  },
+  "useEffect render": {
+    "prefix": "presEffetRender",
+    "body": [
+      "      <div className=\"SearchCatForm\">",
+      "      <Select",
+      "        options={categories}",
+      "        placeholder=\"Category\"",
+      "        value={selectedCategory}",
+      "        onChange={selectedCategory => setSelectedCategory(selectedCategory)}",
+      "        className=\"SearchCatForm-select\"",
+      "      />",
+      "      <Select",
+      "        isMulti",
+      "        options={imageTypes}",
+      "        placeholder=\"Image type\"",
+      "        value={selectedImageTypes}",
+      "        onChange={selectedImageTypes =>",
+      "          setSelectedImageTypes(selectedImageTypes)",
+      "        }",
+      "        className=\"SearchCatForm-select\"",
+      "      />",
+      "      {loading ? (",
+      "        <span>Loading cats...</span>",
+      "      ) : (",
+      "        <div className=\"SearchCatForm-results\">",
+      "          {cats.map(cat => (",
+      "            <img",
+      "              alt=\"\"",
+      "              src={cat.url}",
+      "              onClick={() =>",
+      "                !excludedCats.includes(cat.url) &&",
+      "                setSelectedCats(toggle(selectedCats, cat.id))",
+      "              }",
+      "              key={cat.id}",
+      "              className={`${",
+      "                selectedCats.includes(cat.id) ? \"SearchCatForm-selected\" : \"\"",
+      "              }${",
+      "                excludedCats.includes(cat.url) ? \"SearchCatForm-excluded\" : \"\"",
+      "              }`}",
+      "            />",
+      "          ))}",
+      "        </div>",
+      "      )}",
+      "      {selectedCats.length > 0 && (",
+      "        <button",
+      "          className=\"SearchCatForm-submit\"",
+      "          onClick={() => {",
+      "            const urls = cats",
+      "              .filter(cat => selectedCats.includes(cat.id))",
+      "              .map(cat => cat.url);",
+      "            addCats(urls);",
+      "          }}",
+      "        >",
+      "          Add Cats",
+      "        </button>",
+      "      )}",
+      "    </div>",
+      "  );",
+      "}",
+      "",
+      "function toggle(array, value) {",
+      "  if (array.includes(value)) {",
+      "    return array.filter(v => v !== value);",
+      "  } else {",
+      "    return [...array, value];",
+      "  }",
+      "}"
+    ]
+  },
+  "useReducer render": {
+    "prefix": "presRedRender",
+    "body": [
+      "      <div className=\"SearchCatForm\">",
+      "  <Select",
+      "    options={categories}",
+      "    placeholder=\"Category\"",
+      "    value={selectedCategory}",
+      "    onChange={category => dispatch({ type: SELECT_CATEGORY, category })}",
+      "    className=\"SearchCatForm-select\"",
+      "  />",
+      "  <Select",
+      "    isMulti",
+      "    options={imageTypes}",
+      "    placeholder=\"Image type\"",
+      "    value={selectedImageTypes}",
+      "    onChange={imageTypes =>",
+      "      dispatch({ type: SELECT_IMAGE_TYPES, imageTypes })",
+      "    }",
+      "    className=\"SearchCatForm-select\"",
+      "  />",
+      "  {loading ? (",
+      "    <span>Loading cats...</span>",
+      "  ) : (",
+      "    <div className=\"SearchCatForm-results\">",
+      "      {cats.map(cat => (",
+      "        <img",
+      "          alt=\"\"",
+      "          src={cat.url}",
+      "          onClick={() => dispatch({ type: TOGGLE, cat })}",
+      "          key={cat.id}",
+      "          className={`${",
+      "            selectedCats.includes(cat.id) ? \"SearchCatForm-selected\" : \"\"",
+      "          }${",
+      "            excludedCats.includes(cat.url) ? \"SearchCatForm-excluded\" : \"\"",
+      "          }`}",
+      "        />",
+      "      ))}",
+      "    </div>",
+      "  )}",
+      "  {selectedCats.length > 0 && (",
+      "    <button",
+      "      className=\"SearchCatForm-submit\"",
+      "      onClick={() => {",
+      "        const urls = cats",
+      "          .filter(cat => selectedCats.includes(cat.id))",
+      "          .map(cat => cat.url);",
+      "        addCats(urls);",
+      "      }}",
+      "    >",
+      "      Add Cats",
+      "    </button>",
+      "  )}",
+      "</div>"
+    ]
+  }
+}
